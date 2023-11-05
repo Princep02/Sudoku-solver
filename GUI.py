@@ -2,33 +2,34 @@ from tkinter import*
 from solver import solver
 
 root=Tk()
-root.title("Sudoku Solver")
-root.geometry("324x550")
+root.title("Sudoku Solver")  // windows title
+root.geometry("324x550")  // dimension of window using geometry method
 
 label=Label(root,text="Fill in the numbers and click solve").grid(row=0,column=1,columnspan=10)
+//breifing usage of program.
 
-errLabel=Label(root,text="",fg="red")
-errLabel.grid(row=15,column=1,columnspan=10,pady=5)
+errLabel=Label(root,text="",fg="red")  //error if sudoku is not solvalabe
+errLabel.grid(row=15,column=1,columnspan=10,pady=5)  //grid method to place the label
 
-solvedLabel=Label(root,text="",fg="green")
+solvedLabel=Label(root,text="",fg="green")  //success label after successfully solving the sudoku
 solvedLabel.grid(row=15,column=1,columnspan=10,pady=5)
 
-cells={}
+cells={}  //creating empty dictionary where we store each cell of the input grid
 
-def ValidateNumber(P):
+def ValidateNumber(P):  // method to validate the number is sigle digit
     out= (P.isdigit() or P=="")and len(P)<2
     return out
 
-reg=root.register(ValidateNumber)
+reg=root.register(ValidateNumber)  //register the function to the windows
 
-def draw3x3Grid(row,column,bgcolor):
-    for i in range(3):
-        for j in range(3):
-            e=Entry(root,width=5,bg=bgcolor,justify="center",validate="key",validatecommand=(reg,"%P"))
-            e.grid(row=row+i+1,column=column+j+1,sticky="nsew",padx=1,pady=1,ipady=5)
+def draw3x3Grid(row,column,bgcolor): //divide the 9*9 grid into 3*3 grid
+    for i in range(3):  //indicate rows
+        for j in range(3):  //indicate columns
+            e=Entry(root,width=5,bg=bgcolor,justify="center",validate="key",validatecommand=(reg,"%P")) //entry widget to enter the num and validate it
+            e.grid(row=row+i+1,column=column+j+1,sticky="nsew",padx=1,pady=1,ipady=5) // 
             cells[(row+i+1,column+j+1)]=e
 
-def draw9x9Grid():
+def draw9x9Grid():  //
     color="#D0ffff"
     for rowNo in range(1,10,3):
         for colNo in range(0,9,3):
@@ -38,34 +39,34 @@ def draw9x9Grid():
             else:
                 color="#D0ffff"
 
-def clearValues():
-    errLabel.configure(text="")
-    solvedLabel.configure(text="")
-    for row in range(2,11):
+def clearValues():  //this clear values in each cell of the grid
+    errLabel.configure(text="")  //clear the error
+    solvedLabel.configure(text="") //clear success label
+    for row in range(2,11):  //iterate through rows and column
         for col in range(1,10):
             cell=cells[(row,col)]
-            cell.delete(0,"end")
+            cell.delete(0,"end")  //delete method to delete from entry widget
 
 def getValues():
     board=[]
     errLabel.configure(text="")
-    solvedLabel.configure(text="")
-    for row in range(2,11):
-        rows=[]
-        for col in range(1,10):
-            val=cells[(row,col)].get()
+    solvedLabel.configure(text="")  /clear label if any
+    for row in range(2,11):  //iterate over rows
+        rows=[] //create empty list
+        for col in range(1,10):  //iterate over columns
+            val=cells[(row,col)].get()  //using entry widget get method get values of cell
             if val=="":
                 rows.append(0)
             else:
-                rows.append(int(val))
+                rows.append(int(val))  //else appent integer values
 
         board.append(rows)
     updateValues(board)
 
-btn=Button(root, command=getValues, text="Solve", width=10)
+btn=Button(root, command=getValues, text="Solve", width=10)  //using btn widget create button to solve
 btn.grid(row=20,column=1,columnspan=5,pady=20)
 
-btn=Button(root, command=clearValues, text="Clear", width=10)
+btn=Button(root, command=clearValues, text="Clear", width=10) //using btn widget create button to clear
 btn.grid(row=20,column=5,columnspan=5,pady=20)
 
 def updateValues(s):
@@ -82,5 +83,5 @@ def updateValues(s):
 
 
 draw9x9Grid()
-root.mainloop()
+root.mainloop()   //to launch the instance of crated window
             
