@@ -69,16 +69,16 @@ btn.grid(row=20,column=1,columnspan=5,pady=20)
 btn=Button(root, command=clearValues, text="Clear", width=10) #using btn widget create button to clear
 btn.grid(row=20,column=5,columnspan=5,pady=20)
 
-def updateValues(s):
-    sol=solver(s)
+def updateValues(s): #update value function to update the solved sudolu values in cell and display
+    sol=solver(s)    #call solver function
     if sol !="no":
         for rows in range(2,11):
             for col in range(1,10):
-                cells[(rows,col)].delete(0,"end")
-                cells[(rows,col)].insert(0,sol[rows-2][col-1])
-        solvedLabel.configure(text="Sudoku solved!")
+                cells[(rows,col)].delete(0,"end")  #delete existing values from the cell
+                cells[(rows,col)].insert(0,sol[rows-2][col-1])  #insert method to insert value at 0th index
+        solvedLabel.configure(text="Sudoku solved!")   #text
     else:
-        errLabel.configure(text="No solution exists for this sudoku")
+        errLabel.configure(text="No solution exists for this sudoku") #error if not solved
         
 
 
